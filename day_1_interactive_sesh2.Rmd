@@ -1,0 +1,98 @@
+---
+title: "Day 1 Interactive Session 2"
+author: "Paloma Cartwright"
+date: "02/08/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+```
+
+### Logs and Exponents in R
+
+Some examples of using the `log()` function and the `exp()` function in R
+
+```{r}
+
+# Examples of logarithms
+
+log(4)
+
+# Examples of exponents 
+
+exp(5)
+
+# A test of log()
+
+log(exp(5))
+
+```
+
+### Creating Sequences of Values
+
+```{r}
+# A sequqence from 1 to 20 by increments of 1 
+
+example_1 <- seq(from = 1, to = 20, by = 1)
+
+# Vector from 0 to 40 by increments of 0.2
+
+example_2 <- seq(from = 0, to = 40, by = 0.2) 
+
+# Vector from 1 to 5000, by increments of 10 
+
+example_3 <- seq(from = 1, to = 5000, by = 10)
+
+```
+
+### Create a Function for Logistic Growth
+
+Given the carrying capacity, the initial population, the growth rate and time, use the logistic growth model to estimate the population at that time. 
+
+```{r}
+pop_logistic <- function(cap, init_pop, rate, time_yr){
+  cap / (1 + ((cap - init_pop) / init_pop) * exp(-rate * time_yr))
+}
+
+pop_logistic(cap = 2580, init_pop = 230, rate = 0.32, time_yr = 2.4)
+
+```
+### Try Finding the Population over a Sequence of Times
+
+```{r}
+time_vec <- seq(from = 0, to = 40, by = 0.5)
+
+```
+
+Now let's estimate the population over that range of times, given that that capacity is 2580, the initial population is 230, the growth rate is 0.32 and the times is that vector of years. 
+
+```{r}
+chipmunk_pop <- pop_logistic(cap = 2580, init_pop = 230, rate = 0.32, time_yr = time_vec)
+
+chipmunk_pop
+```
+### Create a Data Frame and Plot Chipmunk Population over Time
+
+```{r}
+
+chipmunk_df <- data.frame(time_vec, chipmunk_pop)
+
+```
+### Create a Bare Minimum `ggplot` Graph
+
+```{r}
+ggplot(data = chipmunk_df, aes(x = time_vec, y = chipmunk_pop)) +
+  geom_point() + 
+  labs(x = "Time (years)",
+       y = "Chipmunk Population (individuals)", 
+       title = "Inyo NF Chipmunks", 
+       subtitle = "Yay chipmunks!")
+
+```
+
+
+
+
